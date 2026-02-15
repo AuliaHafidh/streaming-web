@@ -1,0 +1,130 @@
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 1.5rem 3rem;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.login-field {
+    display: flex;
+    align-items: center;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.login-field:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.login-field-icon {
+    color: var(--text-muted);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.login-field input {
+    all: unset;
+    flex: 1;
+    padding: 0.85rem 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.login-field input::placeholder {
+    color: var(--text-muted);
+}
+
+.login-field-toggle {
+    all: unset;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0.3rem;
+    display: flex;
+    transition: color 0.2s;
+}
+
+.login-field-toggle:hover {
+    color: var(--text-primary);
+}
+
+.login-submit {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    border-radius: 12px;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-footer p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.login-switch {
+    all: unset;
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.login-switch:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1.75rem;
+        border-radius: 16px;
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,243 @@
+.detail-page {
+    min-height: 100vh;
+}
+
+/* ===== Backdrop ===== */
+.detail-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60vh;
+    z-index: -1;
+}
+
+.detail-backdrop img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-backdrop-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.3) 0%,
+            var(--bg-primary) 90%);
+}
+
+/* ===== Main Section ===== */
+.detail-main {
+    display: flex;
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25vh 1.5rem 2rem;
+}
+
+.detail-poster {
+    flex-shrink: 0;
+    width: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.detail-poster img {
+    width: 100%;
+    display: block;
+}
+
+.detail-no-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* ===== Info ===== */
+.detail-info {
+    flex: 1;
+    padding-top: 1rem;
+}
+
+.detail-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem;
+    letter-spacing: -0.5px;
+}
+
+.detail-tagline {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 1rem;
+    margin: 0 0 1rem;
+}
+
+.detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.detail-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.detail-rating-badge {
+    color: var(--accent) !important;
+    font-weight: 700;
+    background: rgba(245, 197, 24, 0.1);
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+}
+
+.detail-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.detail-user-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-user-rating-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.detail-overview h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+}
+
+.detail-overview p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+}
+
+.detail-extra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.detail-extra-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.detail-extra-item strong {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.detail-extra-item span {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+/* ===== Content Below ===== */
+.detail-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+}
+
+.detail-section {
+    margin-bottom: 2.5rem;
+}
+
+/* ===== Trailer ===== */
+.trailer-container {
+    position: relative;
+    padding-top: 56.25%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+}
+
+.trailer-container iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .detail-main {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 15vh;
+        text-align: center;
+    }
+
+    .detail-poster {
+        width: 200px;
+    }
+
+    .detail-title {
+        font-size: 1.8rem;
+    }
+
+    .detail-meta,
+    .detail-genres,
+    .detail-actions {
+        justify-content: center;
+    }
+
+    .detail-user-rating {
+        justify-content: center;
+    }
+
+    .detail-extra {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-poster {
+        width: 160px;
+    }
+
+    .detail-title {
+        font-size: 1.5rem;
+    }
+
+    .detail-main {
+        padding-top: 12vh;
+    }
+}
