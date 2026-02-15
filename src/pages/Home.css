@@ -159,3 +159,9 @@
         padding: 1.5rem 1rem 2rem;
     }
 }
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+    padding-bottom: 2rem;
+}

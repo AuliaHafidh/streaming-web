@@ -1,12 +1,12 @@
-// React imports removed as they are not used explicitly
-
+import { useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiPlay, FiStar, FiTrendingUp } from 'react-icons/fi';
 import MovieCard from '../components/MovieCard';
-import Pagination from '../components/Pagination';
 import GenreBadge from '../components/GenreBadge';
-import { LoadingSpinner, ErrorState } from '../components/LoadingSpinner';
+import { ErrorState } from '../components/LoadingSpinner';
+import SkeletonHome from '../components/SkeletonHome';
+import SkeletonCard from '../components/SkeletonCard';
 import { IMAGE_SIZES } from '../services/api';
 import { useHomeData } from '../hooks/useHomeData';
 import './Home.css';
@@ -17,15 +17,33 @@ export default function Home() {
         popular,
         genres,
         featured,
-        page,
         setPage,
-        totalPages,
         loading,
+        loadingMore,
         error,
-        fetchData
+        hasMore,
     } = useHomeData();
 
-    if (error) return <ErrorState message={error} onRetry={fetchData} />;
+    // Infinite Scroll Observer
+    const observer = useRef();
+    const lastMovieRef = useCallback(
+        (node) => {
+            if (loadingMore) return;
+            if (observer.current) observer.current.disconnect();
+            observer.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasMore) {
+                    setPage((prev) => prev + 1);
+                }
+            });
+            if (node) observer.current.observe(node);
+        },
+        [loadingMore, hasMore, setPage]
+    );
+
+    if (error) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
+
+    // Initial Skeleton Load
+    if (loading) return <SkeletonHome />;
 
     return (
         <div className="home-page">
@@ -105,36 +123,39 @@ export default function Home() {
                             Trending This Week
                         </h2>
                     </div>
-                    {loading ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <div className="trending-scroll">
-                            {trending.map((movie, i) => (
-                                <div className="trending-item" key={movie.id}>
-                                    <MovieCard movie={movie} index={i} />
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    <div className="trending-scroll">
+                        {trending.map((movie, i) => (
+                            <div className="trending-item" key={movie.id}>
+                                <MovieCard movie={movie} index={i} />
+                            </div>
+                        ))}
+                    </div>
                 </section>
 
-                {/* Popular */}
+                {/* Popular - Infinite Scroll */}
                 <section>
                     <div className="section-header">
                         <h2 className="section-title">Popular Movies</h2>
                     </div>
-                    {loading ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <>
-                            <div className="movie-grid">
-                                {popular.map((movie, i) => (
-                                    <MovieCard key={movie.id} movie={movie} index={i} />
-                                ))}
-                            </div>
-                            <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
-                        </>
-                    )}
+
+                    <div className="movie-grid">
+                        {popular.map((movie, i) => {
+                            if (popular.length === i + 1) {
+                                return (
+                                    <div ref={lastMovieRef} key={movie.id}>
+                                        <MovieCard movie={movie} index={i} />
+                                    </div>
+                                );
+                            } else {
+                                return <MovieCard key={movie.id} movie={movie} index={i} />;
+                            }
+                        })}
+
+                        {/* Loading More Skeletons */}
+                        {loadingMore && [...Array(5)].map((_, i) => (
+                            <SkeletonCard key={`skel-${i}`} />
+                        ))}
+                    </div>
                 </section>
             </div>
         </div>

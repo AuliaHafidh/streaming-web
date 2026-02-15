@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getTrending, getPopular, getGenres } from '../services/api';
 
 export const useHomeData = () => {
@@ -7,24 +7,24 @@ export const useHomeData = () => {
     const [genres, setGenres] = useState([]);
     const [featured, setFeatured] = useState(null);
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // Initial load
+    const [loadingMore, setLoadingMore] = useState(false); // Infinite scroll load
     const [error, setError] = useState(null);
+    const [hasMore, setHasMore] = useState(true);
 
-    const fetchData = async () => {
+    const fetchInitialData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
             const [trendData, popData, genreData] = await Promise.all([
                 getTrending(),
-                getPopular(page),
+                getPopular(1),
                 getGenres(),
             ]);
             setTrending(trendData.results.slice(0, 10));
             setPopular(popData.results);
-            setTotalPages(Math.min(popData.total_pages, 500));
             setGenres(genreData);
-            if (!featured && trendData.results.length > 0) {
+            if (trendData.results.length > 0) {
                 setFeatured(trendData.results[0]);
             }
         } catch (err) {
@@ -32,23 +32,44 @@ export const useHomeData = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
+    const fetchMorePopular = useCallback(async () => {
+        if (loadingMore || !hasMore) return;
+
+        setLoadingMore(true);
+        try {
+            const popData = await getPopular(page);
+            setPopular(prev => [...prev, ...popData.results]);
+            if (page >= popData.total_pages) setHasMore(false);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoadingMore(false);
+        }
+    }, [page, hasMore]); // Remove loadingMore dependency to avoid closure stale issues, but handle guard inside
+
+    // Initial Load
     useEffect(() => {
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
+        fetchInitialData();
+    }, [fetchInitialData]);
+
+    // Infinite Scroll Load
+    useEffect(() => {
+        if (page > 1) {
+            fetchMorePopular();
+        }
+    }, [page, fetchMorePopular]);
 
     return {
         trending,
         popular,
         genres,
         featured,
-        page,
-        setPage,
-        totalPages,
         loading,
+        loadingMore,
         error,
-        fetchData
+        hasMore,
+        setPage,
     };
 };
