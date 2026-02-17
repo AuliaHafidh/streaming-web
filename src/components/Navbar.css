@@ -112,6 +112,109 @@
     background: var(--hover-bg);
 }
 
+/* Profile Dropdown Styles */
+.profile-menu {
+    position: relative;
+    margin-left: 0.5rem;
+}
+
+.profile-btn {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), #ff6b6b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid var(--bg-color);
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    width: 220px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-menu:hover .profile-dropdown,
+.profile-menu:focus-within .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.dropdown-email {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-item {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background: var(--hover-bg);
+}
+
+.dropdown-item.logout {
+    color: #ff6b6b;
+}
+
+.dropdown-item.logout:hover {
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.login-link {
+    background: var(--accent);
+    color: white !important;
+}
+
+.login-link:hover {
+    filter: brightness(1.1);
+}
+
 .menu-toggle {
     all: unset;
     cursor: pointer;
@@ -164,5 +267,41 @@
         justify-content: flex-start;
         padding: 0.75rem 1rem;
         height: auto;
+    }
+
+    /* Mobile Profile Styles */
+    .profile-menu {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .profile-btn {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+    }
+
+    .profile-avatar {
+        margin-right: 0.75rem;
+    }
+
+    .profile-dropdown {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        padding: 0;
+        margin-top: 0.5rem;
+        display: none;
+        /* Hide by default on mobile, maybe show on click */
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    /* Since hover doesn't work well on mobile, we might need JS toggle or just display it always if logged in */
+    .profile-menu:focus-within .profile-dropdown {
+        display: block;
     }
 }

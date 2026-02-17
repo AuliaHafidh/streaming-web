@@ -7,13 +7,13 @@ export default function Footer() {
             <div className="footer-container">
                 <div className="footer-brand">
                     <FiFilm className="footer-logo" />
-                    <span>CineVault</span>
+                    <span>Moviora</span>
                 </div>
                 <p className="footer-text">
                     Powered by <a href="https://www.themoviedb.org/" target="_blank" rel="noreferrer">TMDB</a>.
-                    Built with <FiHeart className="heart-icon" /> using React.
+                    {/* Built with <FiHeart className="heart-icon" /> using React. */}
                 </p>
-                <p className="footer-copy">&copy; {new Date().getFullYear()} CineVault. All rights reserved.</p>
+                <p className="footer-copy">&copy; {new Date().getFullYear()} Moviora. All rights reserved.</p>
             </div>
         </footer>
     );
