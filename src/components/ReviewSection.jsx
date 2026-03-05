@@ -1,48 +1,107 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiSend, FiTrash2, FiUser, FiAlertCircle } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../services/supabaseClient';
 import StarRating from './StarRating';
 import './Components.css';
 
 export default function ReviewSection({ movieId }) {
     const { user } = useAuth();
-    const [reviews, setReviews] = useState(() => {
-        const saved = localStorage.getItem(`reviews_${movieId}`);
-        return saved ? JSON.parse(saved) : [];
-    });
+    const [reviews, setReviews] = useState([]);
     const [text, setText] = useState('');
     const [reviewRating, setReviewRating] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-    const saveReviews = (newReviews) => {
-        setReviews(newReviews);
-        localStorage.setItem(`reviews_${movieId}`, JSON.stringify(newReviews));
-    };
+    useEffect(() => {
+        const fetchReviews = async () => {
+            setLoading(true);
+            const { data, error } = await supabase
+                .from('reviews')
+                .select('*')
+                .eq('movie_id', String(movieId))
+                .order('created_at', { ascending: false });
 
-    const handleSubmit = (e) => {
+            if (!error && data) {
+                const formatted = data.map(r => ({
+                    id: r.id,
+                    text: r.text,
+                    rating: r.rating,
+                    date: new Date(r.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                    }),
+                    author: r.author_email,
+                    userId: r.user_id
+                }));
+                setReviews(formatted);
+            }
+            setLoading(false);
+        };
+
+        if (movieId) {
+            fetchReviews();
+        }
+    }, [movieId]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!text.trim() || !user) return;
 
         const newReview = {
-            id: Date.now(),
-            text: text.trim(),
+            movie_id: String(movieId),
+            user_id: user.id,
+            author_email: user.email || 'Anonymous',
             rating: reviewRating,
-            date: new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-            }),
-            author: user.email || 'Anonymous', // Use real email
-            userId: user.id // Store user ID to allow deletion only by author
+            text: text.trim(),
         };
 
-        saveReviews([newReview, ...reviews]);
-        setText('');
-        setReviewRating(0);
+        try {
+            const { data, error } = await supabase
+                .from('reviews')
+                .insert([newReview])
+                .select();
+
+            if (error) {
+                console.error("Supabase insert error:", error);
+                alert("Failed to post review: " + error.message);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                const inserted = data[0];
+                const formattedNew = {
+                    id: inserted.id,
+                    text: inserted.text,
+                    rating: inserted.rating,
+                    date: new Date(inserted.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                    }),
+                    author: inserted.author_email,
+                    userId: inserted.user_id
+                };
+                setReviews([formattedNew, ...reviews]);
+                setText('');
+                setReviewRating(0);
+            }
+        } catch (err) {
+            console.error("Unexpected error submitting review:", err);
+            alert("An unexpected error occurred while posting your review.");
+        }
     };
 
-    const handleDelete = (id) => {
-        saveReviews(reviews.filter((r) => r.id !== id));
+    const handleDelete = async (id) => {
+        const { error } = await supabase
+            .from('reviews')
+            .delete()
+            .eq('id', id);
+
+        if (!error) {
+            setReviews(reviews.filter((r) => r.id !== id));
+        }
     };
 
     return (

@@ -142,7 +142,7 @@ export default function Home() {
                         {popular.map((movie, i) => {
                             if (popular.length === i + 1) {
                                 return (
-                                    <div ref={lastMovieRef} key={movie.id}>
+                                    <div ref={lastMovieRef} key={movie.id} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                                         <MovieCard movie={movie} index={i} />
                                     </div>
                                 );

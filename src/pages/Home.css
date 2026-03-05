@@ -121,6 +121,7 @@
 
 .trending-item {
     flex: 0 0 180px;
+    width: 180px;
 }
 
 @media (max-width: 768px) {
@@ -137,12 +138,14 @@
         font-size: 0.9rem;
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
     .trending-item {
         flex: 0 0 150px;
+        width: 150px;
     }
 }
 
@@ -159,6 +162,7 @@
         padding: 1.5rem 1rem 2rem;
     }
 }
+
 .movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
