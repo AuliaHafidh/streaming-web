@@ -1,16 +1,56 @@
-# React + Vite
+# Moviora - Streaming Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Moviora adalah aplikasi web katalog dan *streaming* film berpenampilan modern yang dirancang untuk memberikan pengalaman terbaik kepada pengguna. Dibuat dengan pendekatan _single-page application_ (SPA), aplikasi ini mementingkan aspek kecepatan (dibangun di atas Vite dan React) serta desain premium bergaya *Glassmorphism*.
 
-Currently, two official plugins are available:
+## 🌟 Fitur Unggulan
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **Dukungan Dua Bahasa (Bilingual)**: Tersedia pilihan untuk mengganti konten aplikasi antara **Bahasa Inggris (EN)** dan **Bahasa Indonesia (ID)**.
+* **Jelajah Film**: Melihat kumpulan film *Trending*, Populer, dan rilis terbaru bersumber dari **The Movie Database (TMDB) API**.
+* **Mode Gelap/Terang (Dark/Light Mode)**: Secara instan dapat menyesuaikan tema tampilan sesuai dengan tingkat kenyamanan mata pengguna.
+* **Manajemen Daftar Tontonan (Watchlist)**: Menyimpan film favorit ke dalam daftar tontonan yang datanya tersimpan (*local storage*).
+* **Riwayat Film (History)**: Secara rekam jejak otomatis mencatat riwayat film-film apa saja yang telah dibuka/dilihat.
+* **Sistem Rating Pribadi**: Pengguna dapat menyimpan penilaian bintang pada film-film tertentu.
+* **Navigasi Super Mulus**: Didukung oleh implementasi animasi mulus **Framer Motion** untuk peralihan antar halaman.
+* **Desain Sangat Responsif**: Memberikan jaminan kemudahan akses baik di gawai besar (PC/Laptop) hingga gawai terkecil (Ponsel Pintar).
 
-## React Compiler
+## 💻 Teknologi yang Digunakan
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Kerangka Kerja UI**: [React (v19)](https://react.dev/)
+* **Build Tool**: [Vite](https://vitejs.dev/)
+* **Routing**: [React Router DOM (v7)](https://reactrouter.com/)
+* **HTTP Client**: [Axios](https://axios-http.com/)
+* **Animasi Komponen**: [Framer Motion](https://www.framer.com/motion/)
+* **Ikon Visual**: [React Icons](https://react-icons.github.io/react-icons/)
+* **Backend API**: [TMDB (The Movie Database)](https://www.themoviedb.org/documentation/api)
 
-## Expanding the ESLint configuration
+## 🚀 Panduan Eksekusi (Menjalankan Secara Lokal)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Pastikan Komprabilitas Sistem**
+   Pastikan mesin Anda sudah terpasang [Node.js](https://nodejs.org/).
+
+2. **Pengunduhan (*Clone*) repositori ini:**
+   ```bash
+   git clone https://github.com/AuliaHafidh/streaming-web.git
+   cd streaming-web
+   ```
+
+3. **Pemasangan Paket Modul (Dependencies):**
+   Gunakan _package manager_ kesukaan Anda (`npm`, `yarn`, atau `pnpm`).
+   ```bash
+   npm install
+   ```
+
+4. **Persiapan Kunci API (Environment Variables):**
+   Duplikat atau buat sebuah file bernama `.env` di _root_ poyek Anda. Masukkan API Key TMDB yang Anda miliki seperti berikut:
+   ```env
+   VITE_TMDB_API_KEY=ISI_DENGAN_API_KEY_TMDB_ANDA
+   ```
+
+5. **Mulai Menjalankan Program (Development Server):**
+   ```bash
+   npm run dev
+   ```
+   Buka peramban (browser) dan akses alamat lokal yang diberikan (umumnya di `http://localhost:5173`).
+
+---
+
