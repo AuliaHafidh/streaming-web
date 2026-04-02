@@ -11,6 +11,7 @@ import { LoadingSpinner, ErrorState } from '../components/LoadingSpinner';
 import { useWatchlist } from '../context/WatchlistContext';
 import { useRating } from '../context/RatingContext';
 import { useHistory } from '../context/HistoryContext';
+import { useLanguage } from '../context/LanguageContext';
 import { getMovieDetail, getMovieTrailers, getSimilarMovies, IMAGE_SIZES } from '../services/api';
 import './Detail.css';
 
@@ -24,6 +25,7 @@ export default function Detail() {
     const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
     const { getMovieRating, setMovieRating } = useRating();
     const { addToHistory } = useHistory();
+    const { language } = useLanguage();
 
     useEffect(() => {
         const fetchMovie = async () => {
@@ -145,7 +147,7 @@ export default function Detail() {
 
                     <div className="detail-overview">
                         <h3>Overview</h3>
-                        <p>{movie.overview || 'No overview available.'}</p>
+                        <p>{movie.overview || (language === 'id-ID' ? 'Sinopsis tidak tersedia.' : 'No overview available.')}</p>
                     </div>
 
                     <div className="detail-extra">

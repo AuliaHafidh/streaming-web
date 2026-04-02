@@ -9,6 +9,7 @@ import SkeletonHome from '../components/SkeletonHome';
 import SkeletonCard from '../components/SkeletonCard';
 import { IMAGE_SIZES } from '../services/api';
 import { useHomeData } from '../hooks/useHomeData';
+import { useLanguage } from '../context/LanguageContext';
 import './Home.css';
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
         error,
         hasMore,
     } = useHomeData();
+    const { language } = useLanguage();
 
     // Infinite Scroll Observer
     const observer = useRef();
@@ -87,7 +89,9 @@ export default function Home() {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.6 }}
                         >
-                            {featured.overview?.slice(0, 200)}...
+                            {featured.overview 
+                                ? `${featured.overview.slice(0, 200)}...` 
+                                : (language === 'id-ID' ? 'Sinopsis tidak tersedia.' : 'No overview available.')}
                         </motion.p>
                         <motion.div
                             initial={{ y: 20, opacity: 0 }}

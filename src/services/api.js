@@ -15,8 +15,14 @@ const api = axios.create({
     baseURL: BASE_URL,
     params: {
         api_key: API_KEY,
-        language: 'en-US',
     },
+});
+
+api.interceptors.request.use((config) => {
+    // Read the current language from localStorage, defaulting to English
+    const language = localStorage.getItem('appLanguage') || 'en-US';
+    config.params.language = language;
+    return config;
 });
 
 export const getTrending = async (page = 1) => {
